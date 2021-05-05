@@ -339,7 +339,7 @@ function playKeyboard(){
                 numKeys.style.display = "inline";
             } else {
                 midiStatus.style.color = "";
-                numKeys.style.display = "";
+                numKeys.style.display = "none";
             }
         };
     });
@@ -369,7 +369,7 @@ function playKeyboard(){
                 numKeys.style.display = "inline";
             } else {
                 midiStatus.style.color = "";
-                numKeys.style.display = "";
+                numKeys.style.display = "none";
             }
             // each time there is a midi message call the onMIDIMessage function
             input.value.onmidimessage = onMIDIMessage;
