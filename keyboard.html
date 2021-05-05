@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+        <svg style="display: none;">
+            <defs>
+                <filter id="colorize" 
+                        color-interpolation-filters="sRGB"
+                        x="0" y="0" height="100%" width="100%">
+                    <feColorMatrix type="matrix"
+                                   values="0.95 0 0 0 1
+                                           0.85 0 0 0 0
+                                           0.50 0 0 0 0
+                                           0    0 0 1 0" />
+                </filter>
+            </defs>
+        </svg>
+
+        <style>
+            html {
+                /*                overflow: hidden;*/
+                font-family: sans-serif;
+                font-family: 'Roboto', sans-serif;
+                font-size: 11px;
+                line-height: 150%;
+            }
+
+            html * {
+                margin: 0;
+                color: #4F4F4F;
+                transition: 0.5s ease;
+            }
+
+            h1 {
+                font-size: 1.6em;
+                color: black;
+                padding-bottom: 0.75rem;
+                font-weight: 500;
+            }
+            h2 {
+                font-size: 1.2em;
+                padding-bottom: 0.5rem;
+                font-weight: 500;
+            }
+            p, select {
+                font-size: 1em;
+                font-weight: 400;
+            }
+            select {
+                border: none;
+                cursor: pointer;
+                display: inline;
+            }
+            select option {
+                text-align: right;
+                width: 50px;
+            }
+            .padding-bottom {
+                padding-bottom: 0.25rem;
+            }
+            a:hover, a:hover p {
+                color: black;
+            }
+
+            .top, .bottom, .left, .right, .center {
+                position: absolute;
+            }
+            .top {
+                top: 5%;
+            }
+            .bottom {
+                bottom: 5%;
+            }
+            .left {
+                left: 5%;
+            }
+            .right {
+                right: 5%;
+                text-align: right;
+            }
+            .center {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .note {
+                position: absolute;
+                transform-origin: center;
+                background-repeat: no-repeat;
+                background-size: auto 100%;
+                transition: all 0.5s ease;
+            }
+            .noteLabel {
+                position: relative;
+                top: -50%;
+                left: 50%;
+                transform: translate(0%, 50%);
+                mix-blend-mode: multiply;
+            }
+            .note img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+
+            #bg {
+                position: absolute;
+                width: 50%;
+                height: 60%;
+                top: 25%;
+                left: 25%;
+                background-repeat: no-repeat;
+                background-size: 100%;
+                opacity: 80%;
+                border: 20px solid #FAFAFA;
+                transform: translate(-20px, -25px);
+                transition: none;
+                overflow: hidden;
+            }
+            #bg div {
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 100%;
+                height: 100%;
+                line-height: 0;
+            }
+            .bgLabel {
+                position: relative;
+                top: 1.5em;
+                right: 1.5em;
+                width: auto;
+                text-align: right;
+                mix-blend-mode: multiply;
+                color: black;
+                line-height: 0;
+                padding-bottom: 0;
+            }
+            #bg img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+            #chordContainer {
+                text-align: center;
+                z-index: 2;
+                top: 7.5%;
+                left: 50%;
+            }
+            #instructions {
+                bottom: 10%;
+            }
+            #eyecon, #audio {
+                height: 1.5em;
+                object-fit: contain;
+                cursor: pointer;
+            }
+            #eyecon {
+                width: 2em;
+                padding-right: 0.75em;
+            }
+            
+            #keyboard {
+                position: absolute;
+                height: 8%;
+                top: 12.5%;
+                left: 50%;
+                transform: translateX(-50%);
+                overflow: hidden;
+                z-index: 5;
+                border: 1px solid rgba(32,32,32,0.1);
+            }
+            .key { 
+                position: absolute; 
+                font-size: 10px;
+                border: 1px solid rgba(32,32,32,0.1);
+                box-sizing: border-box;
+                cursor: pointer;
+            }
+            .key, .key * {
+                transition: none;
+            }
+            .key .label { 
+                position: absolute; 
+                bottom: 5px; 
+                text-align: center; 
+                left: 0px; 
+                right: 0px; }
+            .keyLabel {
+                font-weight: 400; 
+                font-size: 10px;
+            }
+            .black { 
+                background-color:  black; 
+                color: white; 
+                z-index: 1; 
+                height: 50%;
+            }
+            .black .keyLabel {
+                color: white; 
+            }
+            .white { 
+                background-color: white; 
+                z-index: 0; 
+                height: 100%;
+            }
+            .key:hover:not(.pressed) { 
+                background-color: rgb(225, 225, 225); 
+            }
+            .black.key:hover:not(.pressed) { 
+                background-color: rgb(100,100,100); 
+            }
+            .pressed {
+                background-color: rgb(200,200,200); 
+            }
+            .black.pressed {
+                background-color: rgb(150,150,150); 
+            }
+            .pressed .keyLabel {
+                color: black;
+            }
+        </style>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/@tonaljs/tonal/browser/tonal.min.js"></script>
+        <script src="audiosynth.js"></script>
+        <script src="MIDI-collage.js"></script>
+        <script src="playKeyboard.js"></script>
+
+
+    </head>
+
+    <body>
+        <header class="top left">
+            <h1>audiocollage</h1>
+            <p>a web MIDI experiment<p>
+            <p>start playing your MIDI or computer keyboard to generate a collage!</p>
+        </header>
+        <div class="top right">
+            <h2>MIDI status</h2>
+            <p id="midiStatus">no MIDI devices detected. try playing your computer keyboard!</p>
+            <p id="midiDevice"></p>
+            <select name="numKeys" id="numKeys">
+                <option value="88"># of keys</option>
+                <option value="25">25 keys</option>
+                <option value="32">32 keys</option>
+                <option value="49">49 keys</option>
+                <option value="61">61 keys</option>
+                <option value="88">88 keys</option>
+            </select>
+            <h2><br>audio</h2>
+            <select name="instrument" id="instrument">
+                <option value="0">piano</option>
+                <option value="1">organ</option>
+                <option value="2">guitar</option>
+                <option value="3">EDM</option>
+            </select>
+        </div>
+        <div class="bottom left">
+            <h2>resources</h2>
+            <p><a target="_blank" href="https://github.com/keithwhor/audiosynth">audiosynth.js</a> for generating audio</p>
+            <p><a target="_blank" href="https://github.com/tonaljs/tonal">tonal.js</a> for chord detection</p>
+            <p><a target="_blank" href="https://github.com/1000mileworld/Piano-Keyboard">js piano keyboard</a></p>
+            <p><a target="_blank" href="https://www.rookiemag.com/tag/collage-kit/">rookie mag</a> and <a target="_blank" href="https://unsplash.com/">unsplash</a> for collage assets</p>
+        </div>
+        <div class="bottom right">
+            <p>designed and coded by <a target="_blank" href="https://hannah-cai.github.io/">Hannah Cai</a></p>
+            <p><a  target="_blank" href="https://hannah-cai.github.io/audiocollage">see this project on Github</a></p>
+        </div>
+        <div class="bottom center" id="controls">
+            <img id="eyecon" src="icons/eyecon-open.png">
+            <img id="audio" src="icons/sound-off.png">
+        </div>
+
+        <div id="bg">
+            <h2 class="bgLabel">—</h2>
+            <img id="baseBg">
+        </div>
+        <div id="chordContainer" class="top center">
+            <p class="padding-bottom">active chord</p>
+            <h2 id="chord">—</h2>
+        </div>
+        <p id="instructions" class="center"><i>press space to clear collage • press enter to re-randomize images</i></p>
+        <div id="keyboard"></div>
+
+        <script type="text/javascript">playKeyboard()</script>
+    </body>
+</html>
