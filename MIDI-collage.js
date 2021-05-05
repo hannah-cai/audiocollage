@@ -592,7 +592,7 @@ document.addEventListener('keydown', function(e) {
             delet[i].remove();
         }
         bg.style.backgroundImage = "";
-        bg.style.transform = "translate(-40px, -40px)";
+        bg.style.transform = "translate(-20px, -25px)";
     }
     if (keyPressed == "Enter") {
         shuffleArray(collageImages);
