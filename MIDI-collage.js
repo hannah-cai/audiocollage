@@ -532,7 +532,7 @@ function playKeyboard(){
         } else if (eyeconClicks % eyeconImages.length == 1) {
             //squint
             view = "simple";
-            show = document.body.querySelectorAll(".note, .note *, #bg, .bgLabel, #controls, #controls *, #chordContainer, #chordContainer *, #bg div, #bg img");
+            show = document.body.querySelectorAll(".note, .note *, #bg, .bgLabel, #controls, #controls *, #chordContainer, #chordContainer *, #bg div, #bg img, #keyboard, #keyboard *");
         } else if (eyeconClicks % eyeconImages.length == 2) {
             //closed
             view = "focus";
